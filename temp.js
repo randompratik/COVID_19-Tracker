@@ -12,7 +12,6 @@ import Map from "./components/Map";
 import Table from "./components/Table";
 import { sortData } from "./components/utility";
 import LineGraph from "./components/LineGraph";
-import "leaflet/dist/leaflet.css";
 
 function App() {
   const [countries, setcountries] = useState([]); //LIST/NAMES  OF COUNTRY AND IsO2 i.e. country code
@@ -20,7 +19,7 @@ function App() {
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]); //It contains all the parsedData
   const [casesType, setCasesType] = useState("cases");
-  
+
   //  *********************************************************************************
 
   // This useEffect adds the country data to the drop down menu
@@ -35,8 +34,7 @@ function App() {
           }));
           let sortedData = sortData(data);
           setcountries(countries);
-         
-        
+          // setMapCountries(data);
           setTableData(sortedData);
         });
     };
@@ -55,48 +53,47 @@ function App() {
   // ***********************************************************************************
   //  On change of country the onChnage button triggers this function and performs this task
 
-  const onCountryChange = async (e) => {
-    const countryCode = e.target.value;
+  const onChangeCountry = async (event) => {
+    const countryCode = event.target.value;
+    setCountry(countryCode);
+    let url = "";
+    if (countryCode === "worldwide") url = "https://disease.sh/v3/covid-19/all";
+    else url = `https://disease.sh/v3/covid-19/countries/${countryCode}`;
 
-    const url =
-      countryCode === "worldwide"
-        ? "https://disease.sh/v3/covid-19/all"
-        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-       
-        setCountry(countryCode);
-        setCountryInfo(data);
-       
-       
-        
-      });
+    const data = await fetch(url);
+    const parsedData = await data.json();
+    setCountryInfo(parsedData);
   };
 
   // const casesType = "cases";
 
   return (
     <div className="app">
+      {/* header */}
+      {/* *********************************************************** */}
       <div className="app__left">
         <div className="app__header">
-          <h1>C😷VID ①⑨ </h1>
+          <h1>COVID 19 Tracker</h1>
 
           <FormControl className="app__dropdown">
             <Select
               value={country}
-              // variant="outlined"
-              onChange={ onCountryChange}
-              className="dropdown__items"
+              variant="outlined"
+              onChange={onChangeCountry}
             >
               <MenuItem value="worldwide">Worldwide</MenuItem>
               {countries.map((item) => (
-                <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
+                <MenuItem value={item.value}>{item.name}</MenuItem>
               ))}
+
+              {/* <MenuItem value="Worldwide">Worldwide</MenuItem>
+            <MenuItem value="Worldwide">Worldwide</MenuItem>
+            <MenuItem value="Worldwide">Worldwide</MenuItem> */}
             </Select>
           </FormControl>
         </div>
 
+        {/* ************************************************************************ */}
         <div className="app__stats">
           <Infobox
             title="Corona Virus Cases"
@@ -114,24 +111,21 @@ function App() {
             total={countryInfo.deaths}
           />
         </div>
-        <div className="app__graph">
-        <Card>
-          <CardContent>
-          <LineGraph casesType={casesType} />
-          </CardContent>
-        </Card>
-        </div>
-       
-           
-        {/* <Map center={mapCenter} zoom={mapZoom} countries={mapCountries}/> */}
+
+        {/* infoBoxes */}
+
+        {/* ********************************************************** */}
+        <Map />
+
+        {/* Map */}
       </div>
       <div className="app__right">
         <Card>
           <CardContent>
             <h3>Cases by countries</h3>
             <Table countries={tableData} />
-            {/* <h3>New Cases</h3> */}
-            {/* <LineGraph casesType={casesType} /> */}
+            <h3>New Cases</h3>
+            <LineGraph casesType={casesType}/>
           </CardContent>
         </Card>
         {/* Table */}

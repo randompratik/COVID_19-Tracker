@@ -1,0 +1,20 @@
+.table {
+  margin-top: 10px;
+  overflow: scroll;
+   height: 550px;
+   margin-bottom: 10px;
+   color: #6a5d5d;
+}
+
+/* this is done so that the white and grey alternate coloring takes up the complete space when screen size changes */
+.table tr{
+  display: flex;
+  justify-content: space-between;
+}
+.table td{
+  padding: 0.5rem;
+}
+
+.table tr:nth-of-type(even){
+  background-color: #f3f2f8;
+}
