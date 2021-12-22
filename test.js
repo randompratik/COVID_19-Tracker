@@ -28,7 +28,6 @@ import {
   Tooltip,
   SubTitle,
 } from "chart.js";
-import { lighten } from "@material-ui/core";
 
 ChartJS.register(
   ArcElement,
@@ -57,32 +56,54 @@ ChartJS.register(
   SubTitle
 );
 
-let options = {
+const options = {
   plugins: {
     legend: {
       display: false,
     },
-    title: {
-      display: true,
-      text: "Daily Rise and fall in COVID cases",
-    },
+    // tooltips: {
+    //   mode: "index",
+    //   intersect: false,
+    //   callbacks: {
+    //     label: function (tooltipItem, data) {
+    //       return numeral(tooltipItem.value).format("+0,0");
+    //     },
+    //   },
+    // },
   },
   elements: {
     point: {
       radius: 0,
     },
   },
-  scales: {
-    x: {
-      display: true,
-       
-     
-    },
-    y:{
-      display: true,
-      
-    }
-  },
+  axisX:{
+      title: "date"
+  }
+  //   maintainAspectRatio: false,
+
+  // scales: {
+  //   // x: [
+  //   //   {
+  //   //     type: "time",
+  //   //     time: {
+  //   //       format: "MM/DD/YY",
+  //   //       tooltipFormat: "ll",
+  //   //     },
+  //   //   },
+  //   // ],
+  //   // y: [
+  //   //   {
+  //   //     // gridLines: {
+  //   //     //   display: false,
+  //   //     // },
+  //   //     // ticks: {
+  //   //     //   callback: function (value, index, values) {
+  //   //     //     return numeral(value).format("0a");
+  //   //     //   },
+  //   //     // },
+  //   //   },
+  //   // ],
+  // },
 };
 
 const buildChartData = (data, casesType) => {
@@ -114,6 +135,7 @@ function LineGraph({ casesType }) {
           let chartData = buildChartData(data, casesType);
           setData(chartData);
           console.log(chartData);
+          // buildChart(chartData);
         });
     };
 
@@ -131,7 +153,6 @@ function LineGraph({ casesType }) {
                 borderColor: "#CC1034",
                 data: data,
                 fill: true,
-                tension: 0.1,
               },
             ],
           }}

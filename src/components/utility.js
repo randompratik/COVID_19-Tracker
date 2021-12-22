@@ -1,3 +1,4 @@
+ 
 export  const sortData=(data)=>{
     const sortedData=[...data];
 
@@ -10,4 +11,9 @@ export  const sortData=(data)=>{
     // return sortedData;
 
     return sortedData.sort((a,b)=>a.cases>b.cases?-1:1);
-}
+};
+
+
+    
+
+

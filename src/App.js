@@ -99,7 +99,7 @@ function App() {
 
         <div className="app__stats">
           <Infobox
-            title="Corona Virus Cases"
+            title="COVID Cases"
             cases={countryInfo.todayCases}
             total={countryInfo.cases}
           />
@@ -109,7 +109,7 @@ function App() {
             total={countryInfo.recovered}
           />
           <Infobox
-            title="Deceased"
+            title="Deaths"
             cases={countryInfo.todayDeaths}
             total={countryInfo.deaths}
           />
@@ -137,6 +137,8 @@ function App() {
         {/* Table */}
         {/* Graph */}
       </div>
+
+     
     </div>
   );
 }
